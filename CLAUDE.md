@@ -30,8 +30,12 @@ No npm/yarn — there is nothing to install or compile. To work on the site:
 
 ## Architecture you need to know before editing
 
-### Theming (`data-theme` on `<body>`)
-Three themes — `cream` (default), `dark`, `teal` — are all defined in the top `<style>` block as CSS custom-property overrides under `[data-theme="..."]` selectors. **All colors must go through `var(--bg)`, `var(--fg)`, `var(--accent)`, etc.** Adding a hex color directly breaks theme switching. When adding a new themed surface, add the variable under `:root` and override it in each `[data-theme=...]` block.
+### Theming (`data-theme` on `<html>`)
+Three themes — `cream` (default via `:root`), `dark`, `teal` — are defined in `styles.css` as CSS custom-property overrides under `[data-theme="..."]` selectors. **All colors must go through `var(--bg)`, `var(--fg)`, `var(--accent)`, etc.** Adding a hex color directly breaks theme switching. When adding a new themed surface, add the variable under `:root` and override it in each `[data-theme=...]` block.
+
+**OS dark-mode follow**: a tiny inline `<script>` in `<head>` (before the stylesheet) checks `matchMedia('(prefers-color-scheme: dark)')` and sets `document.documentElement.dataset.theme = 'dark'` when the OS prefers dark — no FOUC. `app.js` also listens for `matchMedia` change events and flips the theme live, but only if the user hasn't manually picked a theme via the tweaks panel (tracked by `themeUserPicked` — not part of `state`, so not posted back to the harness). The harness can still force a specific theme via `TWEAK_DEFAULTS.theme` (anything other than `'cream'` wins over OS preference).
+
+The `404.html` uses a simpler CSS-only `@media (prefers-color-scheme: dark)` block since it has no JS.
 
 ### i18n (`data-i18n` attributes + `i18n` dictionary)
 Text is keyed. An element like `<h1 data-i18n="hero_h1_1">Tradición</h1>` gets its `innerHTML` replaced from `i18n[lang][key]` on language switch. The `i18n` object lives in **`/i18n.js`** and has exactly two locales: `es` and `en`. **When adding translatable copy, you must add the key to both `es` and `en` — forgetting one leaves stale text on switch.** HTML (e.g. `<em>`) is allowed in values; `innerHTML` is used, not `textContent`.

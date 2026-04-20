@@ -1,4 +1,16 @@
 let state = { ...TWEAK_DEFAULTS };
+let themeUserPicked = false;
+
+if (state.theme === 'cream' && document.documentElement.dataset.theme === 'dark') {
+  state.theme = 'dark';
+}
+
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  if (!themeUserPicked) {
+    state.theme = e.matches ? 'dark' : 'cream';
+    applyTheme();
+  }
+});
 
 function applyContent() {
   const lang = state.language;
@@ -21,7 +33,7 @@ function applyContent() {
 }
 
 function applyTheme() {
-  document.body.dataset.theme = state.theme;
+  document.documentElement.dataset.theme = state.theme;
   document.querySelectorAll('[data-theme-btn]').forEach(b => {
     b.classList.toggle('active', b.dataset.themeBtn === state.theme);
   });
@@ -54,7 +66,7 @@ igCaptions.forEach((cap) => {
 });
 
 document.querySelectorAll('[data-theme-btn]').forEach(b => {
-  b.addEventListener('click', () => { state.theme = b.dataset.themeBtn; applyTheme(); postEdits(); });
+  b.addEventListener('click', () => { state.theme = b.dataset.themeBtn; themeUserPicked = true; applyTheme(); postEdits(); });
 });
 document.querySelectorAll('[data-density]').forEach(b => {
   b.addEventListener('click', () => { state.density = b.dataset.density; applyDensity(); postEdits(); });
