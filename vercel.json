@@ -2,6 +2,14 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "images": {
+    "sizes": [400, 640, 960, 1280, 1920],
+    "formats": ["image/avif", "image/webp"],
+    "minimumCacheTTL": 31536000,
+    "localPatterns": [
+      { "pathname": "/assets/images/**" }
+    ]
+  },
   "redirects": [
     {
       "source": "/:path*",
