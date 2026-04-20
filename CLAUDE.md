@@ -6,43 +6,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Static marketing site for **Tejidos Lorena** (Ecuadorian knitwear workshop). `404.html` is a matching not-found page. No build step, no package manager, no test suite. `assets/` holds product images.
 
-### Image optimization — Vercel Image Optimization API
+### Image optimization — manual WebP via `<picture>`
 
-Content images are **not** preconverted to WebP/AVIF. Vercel handles format negotiation (AVIF → WebP → original) and resizing on-demand via `/_vercel/image?url=<path>&w=<width>&q=<quality>`. Config lives in `vercel.json` under `images` (sizes, formats, 1-year TTL, `localPatterns` allowlist).
+Content images ship as `<picture>` with a WebP source + PNG/JPG fallback. Conversions are generated locally with `cwebp` (from `brew install webp`) and committed to the repo.
 
-**`localPatterns` is required** — without it, Vercel rejects local `url=` paths with a 400/broken image. If you add a new images folder, add a matching pattern:
-```json
-"localPatterns": [
-  { "pathname": "/assets/images/**", "search": "" }
-]
-```
+**Why not Vercel Image Optimization?** Because it's a framework-driven feature — the `<Image>` components in Next.js/Astro/Nuxt construct `/_vercel/image?...` URLs that are accepted by the platform. For **plain static HTML without a framework, this path is not supported**: the `images` config in `vercel.json` is not read, `localPatterns` is a Next.js-only construct, and manually crafting `/_vercel/image?url=...` URLs returns `INVALID_IMAGE_OPTIMIZE_REQUEST`. The Vercel docs direct non-framework users to the Build Output API, which requires a build step. Given the site is intentionally build-step-free, manual WebP with `<picture>` is the sustainable path.
 
-Workflow to add a new content image:
+**Workflow to add a new content image:**
 
-1. Drop the source file (PNG or JPG, any reasonable size) in `assets/images/foo.png`.
-2. Reference with a responsive `<img srcset>` pointing at the endpoint:
+1. Drop the source in `assets/images/foo.png` (or `.jpg`).
+2. Generate the WebP: `cwebp -q 82 assets/images/foo.png -o assets/images/foo.webp`
+3. Reference with `<picture>`:
 
     ```html
-    <img
-      src="/_vercel/image?url=/assets/images/foo.png&w=640&q=82"
-      srcset="/_vercel/image?url=/assets/images/foo.png&w=400&q=82 400w,
-              /_vercel/image?url=/assets/images/foo.png&w=640&q=82 640w,
-              /_vercel/image?url=/assets/images/foo.png&w=960&q=82 960w"
-      sizes="(max-width: 600px) 50vw, 25vw"
-      alt="...">
+    <picture>
+      <source srcset="/assets/images/foo.webp" type="image/webp">
+      <img src="/assets/images/foo.png" alt="...">
+    </picture>
     ```
 
-Vercel auto-negotiates AVIF/WebP/original based on the browser's `Accept` header. No manual `cwebp` / `avifenc` step.
+**When the product gallery fills up** (e.g. 30+ images), add a tiny batch script `scripts/optimize-images.sh` that runs `cwebp` over every PNG/JPG under `assets/images/` that doesn't yet have a sibling `.webp`. Call it before commit or from a git `pre-commit` hook. Never regenerate existing WebPs in place — the conversion is deterministic so the output wouldn't change, but it saves build time.
 
-**Local dev**: `vercel dev` does **not** emulate `/_vercel/image` for static projects (this endpoint only exists in production / Vercel deployments). To keep local dev usable, `index.html`'s `<head>` contains a localhost-only `MutationObserver` that rewrites every `/_vercel/image?url=X&...` back to `X` as `<img>` / `<link>` elements enter the DOM. No impact in production (gated by `hostname` check). If you add more page templates, copy that `<script>` block into each one or lift it into `/app.js`.
+`picture { display: contents; }` in `styles.css` keeps the wrapper transparent to layout so existing `img` selectors still match.
 
-**Quota**: ~1,000 unique source images per month on Hobby plan, cached long-term once optimized. For a low-turnover product gallery this is effectively unlimited.
+`og-image.jpg` stays as JPG — social crawlers want a static URL with a known format, not a picture-element fallback.
 
-**Fallback in case of Vercel outage**: there is none by design — if `/_vercel/image` fails, images 404. That's the trade for no manual work. If this matters, revert to hand-rolled `<picture>` + `cwebp` per the git history.
-
-**LCP images** (hero, above-the-fold): preload with `<link rel="preload" as="image" imagesrcset="..." imagesizes="..." fetchpriority="high">` pointing at the same `/_vercel/image` URLs so the fetch starts before CSS parse.
-
-`og-image.jpg` stays as JPG and is **not** routed through the optimizer — social crawlers want a static URL with a known format, not a negotiated response.
+**LCP**: the hero preloads the WebP directly via `<link rel="preload" as="image" type="image/webp">`. Browsers without WebP support (~<2% globally) fall back to the PNG via `<picture>`.
 
 The homepage is split across four repo-root files:
 
