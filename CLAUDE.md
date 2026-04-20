@@ -15,7 +15,7 @@ The homepage is split across four repo-root files:
 
 Other repo-root static files: `favicon.svg`, `og-image.jpg` (1200×630 social card — generated from `og-card.html`), `robots.txt`, `sitemap.xml`.
 
-`og-card.html` is the source template for the social card. It lives in the repo for editability but is excluded from Vercel deployment via `.vercelignore` — so `tejidoslorena.com/og-card` returns 404. Also carries a `noindex` meta tag as a belt-and-suspenders fallback.
+`og-card.html` is the source template for the social card. It lives in the repo for editability but is excluded from Vercel deployment via `.vercelignore` — so `www.tejidoslorena.com/og-card` returns 404. Also carries a `noindex` meta tag as a belt-and-suspenders fallback.
 
 ### Regenerating `og-image.jpg`
 
@@ -36,7 +36,7 @@ kill $SERVER_PID
 
 Fonts are pulled from Google Fonts on render; `--virtual-time-budget=8000` gives 8s of virtual time for font/image loading before the shot.
 
-Production domain is **tejidoslorena.com** (used in `og:url`, `canonical`, `sitemap.xml`, and the JSON-LD `LocalBusiness` schema in `index.html`'s `<head>`).
+Production domain is **www.tejidoslorena.com** — the `www` subdomain is canonical; the apex `tejidoslorena.com` should redirect to it (configure in Vercel dashboard → Domains). All metadata URLs (`og:url`, `canonical`, `sitemap.xml`, JSON-LD `url`/`image`/`logo`) use `https://www.tejidoslorena.com`.
 
 Hosting is static on Vercel (`.vercel/project.json` — project `lorena-landing`, linked but gitignored). Deploy config is in `vercel.json`: clean URLs (no `.html`, no trailing slash), 1-year immutable cache for `/assets/*` and `/uploads/*`, 1-week cache for `favicon.svg` / `og-image.jpg`, 1-hour must-revalidate for `*.css` / `*.js` (no hash-busting yet), no-cache for HTML, and iframe-safe security headers (no `X-Frame-Options` / frame-ancestors CSP — the edit-mode harness embeds the site in a parent frame).
 

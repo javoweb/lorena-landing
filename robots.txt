@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tejidoslorena.com/sitemap.xml
+Sitemap: https://www.tejidoslorena.com/sitemap.xml
