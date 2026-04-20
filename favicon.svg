@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    g { stroke: #1f1c17; }
+    @media (prefers-color-scheme: dark) {
+      g { stroke: #f1e9d6; }
+    }
+  </style>
+  <g fill="none" stroke-width="2" stroke-linejoin="miter" stroke-linecap="square">
+    <path d="M2 8 L6 2 L10 8 L14 2 L18 8 L22 2 L26 8 L30 2"/>
+    <path d="M2 18 L6 12 L10 18 L14 12 L18 18 L22 12 L26 18 L30 12"/>
+    <path d="M2 28 L6 22 L10 28 L14 22 L18 28 L22 22 L26 28 L30 22"/>
+  </g>
+</svg>
