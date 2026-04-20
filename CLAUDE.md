@@ -13,7 +13,28 @@ The homepage is split across four repo-root files:
 - **`i18n.js`** — declares `const i18n = { es: {…}, en: {…} }` and `const copyTones = { warm: {…}, direct: {…} }` in the global script scope. No side effects.
 - **`app.js`** — consumes `TWEAK_DEFAULTS`, `i18n`, `copyTones` from the shared global scope. Owns all DOM wiring: `applyContent/Theme/Density`, IG grid generation, event handlers, `postMessage` contract with the parent edit-mode harness, `applyAll()` call at end.
 
-Other repo-root static files: `favicon.svg`, `og-image.jpg` (1200×630 social card), `robots.txt`, `sitemap.xml`.
+Other repo-root static files: `favicon.svg`, `og-image.jpg` (1200×630 social card — generated from `og-card.html`), `robots.txt`, `sitemap.xml`.
+
+`og-card.html` is the source template for the social card. It lives in the repo for editability but is excluded from Vercel deployment via `.vercelignore` — so `tejidoslorena.com/og-card` returns 404. Also carries a `noindex` meta tag as a belt-and-suspenders fallback.
+
+### Regenerating `og-image.jpg`
+
+Edit `og-card.html` (copy, colors, layout), then run — from repo root — this one-liner. It uses macOS-native tools only:
+
+```bash
+python3 -m http.server 8080 &
+SERVER_PID=$!
+sleep 1
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless=new --disable-gpu --hide-scrollbars \
+  --virtual-time-budget=8000 --window-size=1200,630 \
+  --screenshot=/tmp/og-card.png \
+  http://localhost:8080/og-card.html
+sips -s format jpeg -s formatOptions 88 /tmp/og-card.png --out og-image.jpg
+kill $SERVER_PID
+```
+
+Fonts are pulled from Google Fonts on render; `--virtual-time-budget=8000` gives 8s of virtual time for font/image loading before the shot.
 
 Production domain is **tejidoslorena.com** (used in `og:url`, `canonical`, `sitemap.xml`, and the JSON-LD `LocalBusiness` schema in `index.html`'s `<head>`).
 

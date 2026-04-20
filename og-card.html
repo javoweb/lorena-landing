@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<title>OG card — Tejidos Lorena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6ec;
+    --bg-alt: #f1e9d6;
+    --fg: #1f1c17;
+    --fg-mute: rgba(31, 28, 23, 0.55);
+    --accent: #4f6e6e;
+    --rule: rgba(31, 28, 23, 0.14);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1200px;
+    height: 630px;
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--fg);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+  .andean-band {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 32px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 32' preserveAspectRatio='xMinYMid repeat'><g fill='none' stroke='%231f1c17' stroke-width='1.2'><path d='M0 16 L8 8 L16 16 L24 8 L32 16 L40 8 L48 16 L56 8 L64 16 L72 8 L80 16 L88 8 L96 16 L104 8 L112 16 L120 8'/><path d='M0 24 L8 16 L16 24 L24 16 L32 24 L40 16 L48 24 L56 16 L64 24 L72 16 L80 24 L88 16 L96 24 L104 16 L112 24 L120 16'/></g></svg>");
+    background-size: 120px 32px;
+    background-repeat: repeat-x;
+    opacity: 0.35;
+  }
+  .text {
+    padding: 80px 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .eyebrow::before {
+    content: ""; width: 40px; height: 1px; background: var(--fg-mute);
+  }
+  .wordmark {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 132px;
+    line-height: 0.95;
+    color: var(--fg);
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    margin-bottom: 28px;
+  }
+  .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+    max-width: 460px;
+  }
+  .tagline em { font-style: italic; color: var(--accent); }
+  .footline {
+    margin-top: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .image {
+    background: var(--bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .image::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(135deg,
+      transparent, transparent 12px,
+      rgba(31, 28, 23, 0.05) 12px,
+      rgba(31, 28, 23, 0.05) 13px);
+  }
+  .image img {
+    position: relative; z-index: 1;
+    width: 500px; height: 500px;
+    object-fit: cover;
+    filter: saturate(0.98) contrast(1.02);
+  }
+  .corner-label {
+    position: absolute;
+    top: 28px; right: 28px;
+    background: var(--bg);
+    padding: 10px 14px;
+    border: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="text">
+    <div class="eyebrow">Atuntaqui · Ecuador</div>
+    <div class="wordmark">Lorena</div>
+    <div class="sub">Tejidos · Original Design</div>
+    <div class="tagline">Tradición andina en <em>tejido de punto</em>.</div>
+    <div class="footline">Desde 1975 · Envíos internacionales</div>
+  </div>
+  <div class="image">
+    <img src="/assets/poncho-hero.png" alt="Poncho Lorena">
+    <div class="corner-label">Poncho Lorena</div>
+  </div>
+  <div class="andean-band"></div>
+</body>
+</html>
