@@ -6,7 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Static marketing site for **Tejidos Lorena** (Ecuadorian knitwear workshop). The homepage lives in `index.html` (~1,000 lines, HTML + inline `<style>` + inline `<script>`) and `404.html` is a matching not-found page. No build step, no package manager, no test suite. `assets/` holds the hero image; `uploads/` holds pasted screenshots.
 
-Hosting is static on Vercel (`.vercel/project.json` — project `lorena-landing`, linked but gitignored). Deploy config is in `vercel.json`: clean URLs (no `.html`, no trailing slash), 1-year immutable cache for `/assets/*` and `/uploads/*`, no-cache for HTML, and iframe-safe security headers (no `X-Frame-Options` / frame-ancestors CSP — the edit-mode harness embeds the site in a parent frame).
+Production domain is **tejidoslorena.com** (used in `og:url`, `canonical`, `sitemap.xml`, and the JSON-LD `LocalBusiness` schema in `index.html`'s `<head>`). Repo-root static files: `favicon.svg`, `og-image.jpg` (1200×630 social card), `robots.txt`, `sitemap.xml`.
+
+Hosting is static on Vercel (`.vercel/project.json` — project `lorena-landing`, linked but gitignored). Deploy config is in `vercel.json`: clean URLs (no `.html`, no trailing slash), 1-year immutable cache for `/assets/*` and `/uploads/*`, 1-week cache for `favicon.svg` / `og-image.jpg`, no-cache for HTML, and iframe-safe security headers (no `X-Frame-Options` / frame-ancestors CSP — the edit-mode harness embeds the site in a parent frame).
 
 ## Commands
 

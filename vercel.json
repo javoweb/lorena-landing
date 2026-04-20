@@ -10,6 +10,12 @@
       ]
     },
     {
+      "source": "/(favicon\\.svg|og-image\\.jpg)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800" }
+      ]
+    },
+    {
       "source": "/(.*)\\.html",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
