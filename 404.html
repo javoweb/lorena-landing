@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perdido en el telar — Tejidos Lorena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6ec;
+    --bg-alt: #f1e9d6;
+    --fg: #1f1c17;
+    --fg-mute: rgba(31, 28, 23, 0.55);
+    --accent: #4f6e6e;
+    --rule: rgba(31, 28, 23, 0.14);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+  }
+  .andean-band {
+    height: 32px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 32' preserveAspectRatio='xMinYMid repeat'><g fill='none' stroke='%231f1c17' stroke-width='1.2'><path d='M0 16 L8 8 L16 16 L24 8 L32 16 L40 8 L48 16 L56 8 L64 16 L72 8 L80 16 L88 8 L96 16 L104 8 L112 16 L120 8'/><path d='M0 24 L8 16 L16 24 L24 16 L32 24 L40 16 L48 24 L56 16 L64 24 L72 16 L80 24 L88 16 L96 24 L104 16 L112 24 L120 16'/></g></svg>");
+    background-size: 120px 32px;
+    background-repeat: repeat-x;
+    opacity: 0.5;
+  }
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+  }
+  .wrap {
+    max-width: 640px;
+    text-align: center;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', 'Inter', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    margin-bottom: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: "";
+    width: 40px;
+    height: 1px;
+    background: var(--fg-mute);
+  }
+  .code {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(96px, 18vw, 180px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+  }
+  .code em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.2;
+    margin: 24px 0 16px;
+    letter-spacing: -0.01em;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  p.lede {
+    color: var(--fg-mute);
+    max-width: 460px;
+    margin: 0 auto 40px;
+    font-size: 16px;
+  }
+  p.lede span[lang="en"] {
+    display: block;
+    margin-top: 12px;
+    font-style: italic;
+    font-size: 14px;
+  }
+  .ctas {
+    display: inline-flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--fg);
+    background: transparent;
+    border: 1px solid var(--fg);
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .btn:hover { background: var(--fg); color: var(--bg); }
+  .btn-primary { background: var(--fg); color: var(--bg); }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .signature {
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    color: var(--fg-mute);
+    margin-top: 48px;
+  }
+</style>
+</head>
+<body>
+<div class="andean-band"></div>
+<main>
+  <div class="wrap">
+    <span class="eyebrow">Error · 404</span>
+    <div class="code">4<em>0</em>4</div>
+    <h1>Este hilo se <em>perdió</em> en el telar.</h1>
+    <p class="lede">
+      La página que buscas no existe o fue movida. Vuelve al inicio o revisa nuestras piezas recientes.
+      <span lang="en">The page you're looking for doesn't exist. Head back home or browse recent pieces.</span>
+    </p>
+    <div class="ctas">
+      <a href="/" class="btn btn-primary">Volver al inicio</a>
+      <a href="/#galeria" class="btn">Ver galería</a>
+    </div>
+    <div class="signature">— Tejidos Lorena</div>
+  </div>
+</main>
+<div class="andean-band"></div>
+</body>
+</html>
