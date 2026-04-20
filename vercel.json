@@ -3,7 +3,8 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "images": {
-    "sizes": [400, 640, 960, 1280, 1920],
+    "sizes": [400, 640],
+    "domains": ["://tejidoslorena.com"],
     "formats": ["image/avif", "image/webp"],
     "minimumCacheTTL": 31536000,
     "localPatterns": [
