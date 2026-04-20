@@ -4,7 +4,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project shape
 
-Static marketing site for **Tejidos Lorena** (Ecuadorian knitwear workshop). `404.html` is a matching not-found page. No build step, no package manager, no test suite. `assets/` holds the hero image; `uploads/` holds pasted screenshots.
+Static marketing site for **Tejidos Lorena** (Ecuadorian knitwear workshop). `404.html` is a matching not-found page. No build step, no package manager, no test suite. `assets/` holds product images.
+
+### Image optimization — Vercel Image Optimization API
+
+Content images are **not** preconverted to WebP/AVIF. Vercel handles format negotiation (AVIF → WebP → original) and resizing on-demand via `/_vercel/image?url=<path>&w=<width>&q=<quality>`. Config lives in `vercel.json` under `images` (sizes, formats, 1-year TTL, `localPatterns` allowlist).
+
+**`localPatterns` is required** — without it, Vercel rejects local `url=` paths with a 400/broken image. If you add a new images folder, add a matching pattern:
+```json
+"localPatterns": [
+  { "pathname": "/assets/images/**", "search": "" }
+]
+```
+
+Workflow to add a new content image:
+
+1. Drop the source file (PNG or JPG, any reasonable size) in `assets/images/foo.png`.
+2. Reference with a responsive `<img srcset>` pointing at the endpoint:
+
+    ```html
+    <img
+      src="/_vercel/image?url=/assets/images/foo.png&w=640&q=82"
+      srcset="/_vercel/image?url=/assets/images/foo.png&w=400&q=82 400w,
+              /_vercel/image?url=/assets/images/foo.png&w=640&q=82 640w,
+              /_vercel/image?url=/assets/images/foo.png&w=960&q=82 960w"
+      sizes="(max-width: 600px) 50vw, 25vw"
+      alt="...">
+    ```
+
+Vercel auto-negotiates AVIF/WebP/original based on the browser's `Accept` header. No manual `cwebp` / `avifenc` step.
+
+**Local dev**: `vercel dev` does **not** emulate `/_vercel/image` for static projects (this endpoint only exists in production / Vercel deployments). To keep local dev usable, `index.html`'s `<head>` contains a localhost-only `MutationObserver` that rewrites every `/_vercel/image?url=X&...` back to `X` as `<img>` / `<link>` elements enter the DOM. No impact in production (gated by `hostname` check). If you add more page templates, copy that `<script>` block into each one or lift it into `/app.js`.
+
+**Quota**: ~1,000 unique source images per month on Hobby plan, cached long-term once optimized. For a low-turnover product gallery this is effectively unlimited.
+
+**Fallback in case of Vercel outage**: there is none by design — if `/_vercel/image` fails, images 404. That's the trade for no manual work. If this matters, revert to hand-rolled `<picture>` + `cwebp` per the git history.
+
+**LCP images** (hero, above-the-fold): preload with `<link rel="preload" as="image" imagesrcset="..." imagesizes="..." fetchpriority="high">` pointing at the same `/_vercel/image` URLs so the fetch starts before CSS parse.
+
+`og-image.jpg` stays as JPG and is **not** routed through the optimizer — social crawlers want a static URL with a known format, not a negotiated response.
 
 The homepage is split across four repo-root files:
 
@@ -38,7 +76,7 @@ Fonts are pulled from Google Fonts on render; `--virtual-time-budget=8000` gives
 
 Production domain is **www.tejidoslorena.com** — the `www` subdomain is canonical; the apex `tejidoslorena.com` should redirect to it (configure in Vercel dashboard → Domains). All metadata URLs (`og:url`, `canonical`, `sitemap.xml`, JSON-LD `url`/`image`/`logo`) use `https://www.tejidoslorena.com`.
 
-Hosting is static on Vercel (`.vercel/project.json` — project `lorena-landing`, linked but gitignored). Deploy config is in `vercel.json`: clean URLs (no `.html`, no trailing slash), 1-year immutable cache for `/assets/*` and `/uploads/*`, 1-week cache for `favicon.svg` / `og-image.jpg`, 1-hour must-revalidate for `*.css` / `*.js` (no hash-busting yet), no-cache for HTML, and iframe-safe security headers (no `X-Frame-Options` / frame-ancestors CSP — the edit-mode harness embeds the site in a parent frame).
+Hosting is static on Vercel (`.vercel/project.json` — project `lorena-landing`, linked but gitignored). Deploy config is in `vercel.json`: clean URLs (no `.html`, no trailing slash), 1-year immutable cache for `/assets/*`, 1-week cache for `favicon.svg` / `og-image.jpg`, 1-hour must-revalidate for `*.css` / `*.js` (no hash-busting yet), no-cache for HTML, and iframe-safe security headers (no `X-Frame-Options` / frame-ancestors CSP — the edit-mode harness embeds the site in a parent frame).
 
 ## Commands
 
