@@ -67,7 +67,7 @@
   .code {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
-    font-size: clamp(96px, 18vw, 180px);
+    font-size: clamp(80px, 22vw, 180px);
     line-height: 1;
     letter-spacing: -0.04em;
     color: var(--fg);
@@ -80,9 +80,9 @@
   h1 {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
-    font-size: clamp(28px, 4vw, 40px);
-    line-height: 1.2;
-    margin: 24px 0 16px;
+    font-size: clamp(24px, 5vw, 40px);
+    line-height: 1.25;
+    margin: 20px 0 16px;
     letter-spacing: -0.01em;
   }
   h1 em {
@@ -132,6 +132,17 @@
     font-size: 20px;
     color: var(--fg-mute);
     margin-top: 48px;
+  }
+
+  @media (max-width: 600px) {
+    main { padding: 40px 20px; }
+    .eyebrow { margin-bottom: 20px; font-size: 10px; letter-spacing: 0.25em; }
+    .eyebrow::before, .eyebrow::after { width: 24px; }
+    p.lede { font-size: 15px; margin-bottom: 32px; }
+    p.lede span[lang="en"] { font-size: 13px; }
+    .ctas { gap: 10px; flex-direction: column; align-items: stretch; }
+    .btn { padding: 13px 22px; justify-content: center; }
+    .signature { margin-top: 32px; font-size: 18px; }
   }
 </style>
 </head>
