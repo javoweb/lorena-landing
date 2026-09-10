@@ -31,21 +31,6 @@ function applyDensity() {
 
 function applyAll() { applyDensity(); applyContent(); }
 
-const igGrid = document.getElementById('ig-grid');
-const igCaptions = ['#poncho', '#chal', '#taller', '#otavalo', '#proceso', '#uglysweater',
-                    '#mayorista', '#tradición', '#chakana', '#telar', '#artesanal', '#ecuador'];
-igCaptions.forEach((cap) => {
-  const el = document.createElement('div');
-  el.className = 'ig-item';
-  el.innerHTML = `<div class="ig-caption">${cap}</div>
-    <div class="ig-overlay">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      VER
-    </div>`;
-  el.addEventListener('click', () => window.open('https://instagram.com/tejidos_lorena_ec', '_blank'));
-  igGrid.appendChild(el);
-});
-
 document.querySelectorAll('[data-density]').forEach(b => {
   b.addEventListener('click', () => { state.density = b.dataset.density; applyDensity(); postEdits(); });
 });
