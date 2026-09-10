@@ -35,10 +35,10 @@ Content images ship as `<picture>` with a WebP source + PNG/JPG fallback. Conver
 
 The homepage is split across four repo-root files:
 
-- **`index.html`** — structure only (head metadata, body markup, tweaks panel). The `<style>` block is gone; CSS is linked externally. The external scripts `/i18n.js` and `/app.js` are loaded in `<head>` with the `defer` attribute — they download in parallel with HTML parse and execute in document order after parse completes (but before `DOMContentLoaded`). The inline `<script>` at the end of `<body>` contains **only** the `/*EDITMODE-BEGIN*/ ... /*EDITMODE-END*/` block defining `TWEAK_DEFAULTS` and runs synchronously during body parse, before the deferred scripts execute. This keeps `i18n.js` and `app.js` off the critical render path while preserving global-scope access to `TWEAK_DEFAULTS`.
-- **`styles.css`** — all CSS (theming vars, layout, responsive breakpoints at 900px and 600px).
-- **`i18n.js`** — declares `const i18n = { es: {…}, en: {…} }` and `const copyTones = { warm: {…}, direct: {…} }` in the global script scope. No side effects.
-- **`app.js`** — consumes `TWEAK_DEFAULTS`, `i18n`, `copyTones` from the shared global scope. Owns all DOM wiring: `applyContent/Theme/Density`, IG grid generation, event handlers, `postMessage` contract with the parent edit-mode harness, `applyAll()` call at end.
+- **`index.html`** — structure only (head metadata, body markup). The `<style>` block is gone; CSS is linked externally. The external scripts `/i18n.js` and `/app.js` are loaded in `<head>` with the `defer` attribute — they download in parallel with HTML parse and execute in document order after parse completes (but before `DOMContentLoaded`).
+- **`styles.css`** — all CSS (color tokens, layout, responsive breakpoints at 900px and 600px).
+- **`i18n.js`** — declares `const i18n = { es: {…}, en: {…} }` in the global script scope. No side effects.
+- **`app.js`** — consumes `i18n` from the shared global scope. Owns all DOM wiring: `applyContent`/`applyDensity`, language and density event handlers, `applyAll()` call at end.
 
 Other repo-root static files: `favicon.svg`, `og-image.jpg` (1200×630 social card — generated from `og-card.html`), `robots.txt`, `sitemap.xml`.
 
@@ -65,7 +65,7 @@ Fonts are pulled from Google Fonts on render; `--virtual-time-budget=8000` gives
 
 Production domain is **www.tejidoslorena.com** — the `www` subdomain is canonical; the apex `tejidoslorena.com` should redirect to it (configure in Vercel dashboard → Domains). All metadata URLs (`og:url`, `canonical`, `sitemap.xml`, JSON-LD `url`/`image`/`logo`) use `https://www.tejidoslorena.com`.
 
-Hosting is static on Vercel (`.vercel/project.json` — project `lorena-landing`, linked but gitignored). Deploy config is in `vercel.json`: clean URLs (no `.html`, no trailing slash), 1-year immutable cache for `/assets/*`, 1-week cache for `favicon.svg` / `og-image.jpg`, 1-hour must-revalidate for `*.css` / `*.js` (no hash-busting yet), no-cache for HTML, and iframe-safe security headers (no `X-Frame-Options` / frame-ancestors CSP — the edit-mode harness embeds the site in a parent frame).
+Hosting is static on Vercel (`.vercel/project.json` — project `lorena-landing`, linked but gitignored). Deploy config is in `vercel.json`: clean URLs (no `.html`, no trailing slash), 1-year immutable cache for `/assets/*`, 1-week cache for `favicon.svg` / `og-image.jpg`, 1-hour must-revalidate for `*.css` / `*.js` (no hash-busting yet), no-cache for HTML, and no `X-Frame-Options` / frame-ancestors CSP set (a leftover from when the site ran inside a parent-frame editor — that integration is gone, so these could be tightened if desired).
 
 ## Commands
 
@@ -78,32 +78,19 @@ No npm/yarn — there is nothing to install or compile. To work on the site:
 
 ## Architecture you need to know before editing
 
-### Theming (`data-theme` on `<html>`)
-Three themes — `cream` (default via `:root`), `dark`, `teal` — are defined in `styles.css` as CSS custom-property overrides under `[data-theme="..."]` selectors. **All colors must go through `var(--bg)`, `var(--fg)`, `var(--accent)`, etc.** Adding a hex color directly breaks theme switching. When adding a new themed surface, add the variable under `:root` and override it in each `[data-theme=...]` block.
+### Color system ("Andean Earth")
+One fixed palette, defined as CSS custom properties under `:root` in `styles.css` — no theme switching. **All colors must go through `var(--bg)`, `var(--fg)`, `var(--accent)`, etc.** Adding a hex color directly bypasses the token system. The base tokens (`--stone`, `--ink`, `--bone`, `--mute`, `--line`) are sampled from the actual product-catalog photography and color swatches. Four accent tokens (`--accent-mustard`, `--accent-teal`, `--accent-maroon`, `--accent-olive`) exist alongside the generic `--accent`, and individual sections re-scope `--accent` to one of them (e.g. `.historia { --accent: var(--accent-teal); }`) so each part of the page carries a distinct accent rather than one page-wide color.
 
-**OS dark-mode follow**: a tiny inline `<script>` in `<head>` (before the stylesheet) checks `matchMedia('(prefers-color-scheme: dark)')` and sets `document.documentElement.dataset.theme = 'dark'` when the OS prefers dark — no FOUC. `app.js` also listens for `matchMedia` change events and flips the theme live, but only if the user hasn't manually picked a theme via the tweaks panel (tracked by `themeUserPicked` — not part of `state`, so not posted back to the harness). The harness can still force a specific theme via `TWEAK_DEFAULTS.theme` (anything other than `'cream'` wins over OS preference).
-
-The `404.html` uses a simpler CSS-only `@media (prefers-color-scheme: dark)` block since it has no JS.
+The `404.html` uses its own CSS-only `@media (prefers-color-scheme: dark)` block since it has no JS and isn't wired to the site's token system.
 
 ### i18n (`data-i18n` attributes + `i18n` dictionary)
 Text is keyed. An element like `<h1 data-i18n="hero_h1_1">Tradición</h1>` gets its `innerHTML` replaced from `i18n[lang][key]` on language switch. The `i18n` object lives in **`/i18n.js`** and has exactly two locales: `es` and `en`. **When adding translatable copy, you must add the key to both `es` and `en` — forgetting one leaves stale text on switch.** HTML (e.g. `<em>`) is allowed in values; `innerHTML` is used, not `textContent`.
 
-### Copy tones (Spanish only)
-`copyTones.warm` and `copyTones.direct` (also in `/i18n.js`) are partial override dictionaries that merge on top of `i18n.es` when `state.copyTone !== 'editorial'`. They intentionally cover only a few hero/contact keys. English has no tone variants — tone state is ignored when `lang === 'en'`.
-
-### Edit-mode / tweaks panel integration
-The site is designed to run inside a parent-frame editor. `/app.js`:
-1. Posts `{ type: '__edit_mode_available' }` to `window.parent` on load.
-2. Listens for `__activate_edit_mode` / `__deactivate_edit_mode` to show/hide the `#tweaks` panel.
-3. On every tweak change (theme, density, language, copyTone) posts `{ type: '__edit_mode_set_keys', edits: {...state} }`.
-
-The block between `/*EDITMODE-BEGIN*/` and `/*EDITMODE-END*/` — still **inline in `index.html`** — defines `TWEAK_DEFAULTS`, the authoritative shape of editable state. The parent harness may rewrite this block in place. **Preserve the sentinel comments and the object shape exactly**; do not move defaults into `app.js` or rename keys without understanding the harness contract.
-
 ### Gallery density
-`#galeria-grid` carries one of `dense-low` / `dense-med` / `dense-high`. Density buttons exist in two places (`#density-public` and `#density-tweaks`) — both are wired through the same `[data-density]` handler, so new density controls just need the attribute.
+`#galeria-grid` carries one of `dense-low` / `dense-med` / `dense-high`, controlled by the `#density-public` buttons in the gallery header (wired through the `[data-density]` handler in `app.js`).
 
 ## Conventions
 
 - Spanish is the source-of-truth for copy; English is the translation. Business terminology (Stoll machines, Otavalo, ugly sweaters, MOQ) should stay consistent across locales.
 - **Factual accuracy about production**: the site is an artisan workshop but the **knitting itself is machine-made** (Stoll flat knitting machines). Only the finishing step — linking, stitching, edges, inspection — is literally done by hand. Avoid marketing copy that says "hecho a mano" / "tejido a mano" / "handmade" for the whole product. Use "confeccionado", "taller", "artesanal", "tejido de punto". The one place "todo hecho a mano" is kept is `proceso_4_desc` because it specifically describes the finishing step.
-- Classic `<script>` load order in `index.html`: deferred `/i18n.js` and `/app.js` are in `<head>`; inline `TWEAK_DEFAULTS` is at end of `<body>`. Execution order is: inline `TWEAK_DEFAULTS` (during body parse) → `/i18n.js` (deferred, after parse) → `/app.js` (deferred, after i18n.js). All are classic scripts sharing the global lexical scope — do not convert to ES modules without setting up explicit imports, since later scripts read globals (`TWEAK_DEFAULTS`, `i18n`, `copyTones`) declared by earlier ones.
+- Classic `<script>` load order in `index.html`: deferred `/i18n.js` and `/app.js` are both in `<head>`, executing in that order after HTML parse completes. Both are classic scripts sharing the global lexical scope — do not convert to ES modules without setting up explicit imports, since `app.js` reads the `i18n` global declared by `i18n.js`.

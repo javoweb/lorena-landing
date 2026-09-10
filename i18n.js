@@ -82,22 +82,3 @@ const i18n = {
     footer_right: "Fine knitwear · Since 1978"
   }
 };
-
-const copyTones = {
-  warm: {
-    hero_meta: "Una familia tejiendo · Atuntaqui · desde 1978",
-    hero_h1_1: "Hecho", hero_h1_2: "con cariño", hero_h1_3: "para ti.",
-    hero_lede: "Somos una familia tejiendo desde hace 50 años. Cada poncho, cada chal lleva el mismo cuidado que le pondríamos a una prenda para un ser querido.",
-    historia_title: "Un negocio familiar <em>con alma andina</em>, hace más de 50 años.",
-    historia_lead: "Todo empezó con mi mamá y mi papá, y una idea simple: tejer bien, tejer honesto, tejer con amor.",
-    contacto_title: "Cuéntanos qué necesitas. Estamos <em>aquí</em> para ti."
-  },
-  direct: {
-    hero_meta: "Tejidos Lorena · Fabricante · Ecuador",
-    hero_h1_1: "Producción", hero_h1_2: "artesanal", hero_h1_3: "para mayoristas.",
-    hero_lede: "Tejido de punto en máquinas Stoll. Ponchos, chales, sacos y uniformes personalizados. MOQ desde 20 piezas. Envíos a 15+ países. Respuesta en 24h.",
-    historia_title: "Fabricante familiar ecuatoriano <em>con 50 años</em> de experiencia.",
-    historia_lead: "Tejidos Lorena: producción artesanal con capacidad industrial para pedidos mayoristas y personalizados.",
-    contacto_title: "Solicita tu cotización <em>hoy</em>. Respuesta en menos de 24h."
-  }
-};

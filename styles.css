@@ -433,53 +433,6 @@ footer {
   color: color-mix(in oklab, var(--bg) 60%, transparent);
 }
 
-.tweaks {
-  position: fixed; bottom: 24px; right: 24px;
-  width: 300px; max-width: calc(100vw - 32px);
-  background: var(--bg);
-  border: 1px solid var(--fg); padding: 20px; z-index: 200;
-  display: none;
-  font-family: 'Inter', sans-serif;
-  box-shadow: 8px 8px 0 color-mix(in oklab, var(--fg) 20%, transparent);
-  max-height: 80vh; overflow-y: auto;
-}
-.tweaks.open { display: block; }
-.tweaks h4 {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 20px;
-  margin-bottom: 18px; font-weight: 400;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.tweaks h4 button {
-  background: none; border: none; cursor: pointer;
-  color: var(--fg-mute); font-size: 20px; line-height: 1;
-}
-.tweak-group { margin-bottom: 20px; }
-.tweak-group label {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--fg-mute); margin-bottom: 10px;
-}
-.lang-swatches { display: flex; gap: 8px; }
-.lang-swatch {
-  flex: 1; padding: 10px; border: 1px solid var(--rule);
-  cursor: pointer;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
-  text-align: center; color: var(--fg); background: none; transition: all 0.2s;
-}
-.lang-swatch.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.tweak-group .density-toggle button { flex: 1; text-align: center; }
-.copy-radios { display: flex; flex-direction: column; gap: 6px; }
-.copy-radios label {
-  display: flex; align-items: center; gap: 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px; letter-spacing: 0; text-transform: none;
-  color: var(--fg); cursor: pointer; margin: 0;
-}
-.copy-radios input[type="radio"] { accent-color: var(--fg); }
-
 @media (max-width: 900px) {
   nav { padding: 16px 20px; }
   .nav-links { display: none; }
@@ -534,7 +487,6 @@ footer {
   .galeria { padding-bottom: 72px; }
   .galeria-header { margin-bottom: 36px; gap: 20px; }
   .galeria-grid { gap: 10px; }
-  .gal-label { font-size: 8px; padding: 5px 6px; bottom: 8px; left: 8px; right: 8px; }
   #density-public { display: none; }
 
   .contacto { padding: 64px 16px 48px; }
@@ -547,9 +499,4 @@ footer {
   .contact-links a span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 
   footer { padding: 28px 16px; font-size: 9px; }
-
-  .tweaks { right: 16px; bottom: 16px; padding: 16px; }
-  .tweaks h4 { font-size: 18px; margin-bottom: 14px; }
-  .lang-swatches { flex-wrap: wrap; }
-  .lang-swatch { flex: 1 1 calc(50% - 4px); }
 }
