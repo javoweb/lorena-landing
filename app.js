@@ -1,16 +1,4 @@
 let state = { ...TWEAK_DEFAULTS };
-let themeUserPicked = false;
-
-if (state.theme === 'cream' && document.documentElement.dataset.theme === 'dark') {
-  state.theme = 'dark';
-}
-
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-  if (!themeUserPicked) {
-    state.theme = e.matches ? 'dark' : 'cream';
-    applyTheme();
-  }
-});
 
 function applyContent() {
   const lang = state.language;
@@ -32,13 +20,6 @@ function applyContent() {
   });
 }
 
-function applyTheme() {
-  document.documentElement.dataset.theme = state.theme;
-  document.querySelectorAll('[data-theme-btn]').forEach(b => {
-    b.classList.toggle('active', b.dataset.themeBtn === state.theme);
-  });
-}
-
 function applyDensity() {
   const grid = document.getElementById('galeria-grid');
   grid.classList.remove('dense-low', 'dense-med', 'dense-high');
@@ -48,7 +29,7 @@ function applyDensity() {
   });
 }
 
-function applyAll() { applyTheme(); applyDensity(); applyContent(); }
+function applyAll() { applyDensity(); applyContent(); }
 
 const igGrid = document.getElementById('ig-grid');
 const igCaptions = ['#poncho', '#chal', '#taller', '#otavalo', '#proceso', '#uglysweater',
@@ -65,9 +46,6 @@ igCaptions.forEach((cap) => {
   igGrid.appendChild(el);
 });
 
-document.querySelectorAll('[data-theme-btn]').forEach(b => {
-  b.addEventListener('click', () => { state.theme = b.dataset.themeBtn; themeUserPicked = true; applyTheme(); postEdits(); });
-});
 document.querySelectorAll('[data-density]').forEach(b => {
   b.addEventListener('click', () => { state.density = b.dataset.density; applyDensity(); postEdits(); });
 });

@@ -2,7 +2,7 @@ const i18n = {
   es: {
     nav_historia: "Historia", nav_proceso: "Proceso", nav_galeria: "Galería",
     nav_instagram: "Instagram", nav_contacto: "Contacto",
-    hero_meta: "Diseño original · Ecuador · desde 1975",
+    hero_meta: "Diseño original · Ecuador · desde 1978",
     hero_h1_1: "Tradición", hero_h1_2: "andina", hero_h1_3: "hilo por hilo.",
     hero_lede: "Cinco décadas diseñando ponchos, chales y sacos tejidos en punto — con precisión alemana y cuidado ecuatoriano. Prendas hechas para durar, no para una temporada.",
     cta_wa: "Cotizar por WhatsApp", cta_proceso: "Ver proceso",
@@ -27,17 +27,23 @@ const i18n = {
     proceso_4_desc: "Costura, remalle, bordes y revisión — todo hecho a mano. Si no pasa nuestra inspección, no lleva la etiqueta Lorena.",
     galeria_label: "Galería",
     galeria_title: "Piezas recientes del <em>taller</em>.",
+    gal_poncho_diana: "Poncho Diana", gal_poncho_bordado: "Poncho Bordado",
+    gal_poncho_flor: "Poncho Flor", gal_poncho_lorena: "Poncho Lorena",
+    gal_poncho_victoria: "Poncho Victoria", gal_poncho_lluvia: "Poncho Lluvia",
+    gal_saco_cristal: "Saco Cristal", gal_saco_alexandra: "Saco Alexandra",
+    gal_sacon_maria: "Sacón María", gal_saco_bordado: "Saco Bordado",
+    gal_chompa_belen: "Chompa Belén",
     ig_label: "En Instagram", ig_cta: "Seguir",
     contacto_label: "Contacto · mayoristas y pedidos",
     contacto_title: "¿Listo para trabajar <em>juntos</em>? Escríbenos por WhatsApp.",
     wa_label: "WhatsApp — respuesta en 24h",
     contact_email: "Email — ventas@tejidoslorena.com",
-    footer_right: "Tejido de punto · Desde 1975"
+    footer_right: "Tejido de punto · Desde 1978"
   },
   en: {
     nav_historia: "Story", nav_proceso: "Process", nav_galeria: "Gallery",
     nav_instagram: "Instagram", nav_contacto: "Contact",
-    hero_meta: "Original design · Ecuador · since 1975",
+    hero_meta: "Original design · Ecuador · since 1978",
     hero_h1_1: "Andean", hero_h1_2: "tradition", hero_h1_3: "thread by thread.",
     hero_lede: "Five decades designing knitted ponchos, shawls and sweaters — German precision, Ecuadorian care. Garments built to last, not for a season.",
     cta_wa: "Quote on WhatsApp", cta_proceso: "See process",
@@ -62,18 +68,24 @@ const i18n = {
     proceso_4_desc: "Linking, stitching, edges and inspection — all done by hand. If it doesn't pass our check, it doesn't carry the Lorena label.",
     galeria_label: "Gallery",
     galeria_title: "Recent pieces from the <em>workshop</em>.",
+    gal_poncho_diana: "Poncho Diana", gal_poncho_bordado: "Poncho Bordado",
+    gal_poncho_flor: "Poncho Flor", gal_poncho_lorena: "Poncho Lorena",
+    gal_poncho_victoria: "Poncho Victoria", gal_poncho_lluvia: "Poncho Lluvia",
+    gal_saco_cristal: "Saco Cristal", gal_saco_alexandra: "Saco Alexandra",
+    gal_sacon_maria: "Sacón María", gal_saco_bordado: "Saco Bordado",
+    gal_chompa_belen: "Chompa Belén",
     ig_label: "On Instagram", ig_cta: "Follow",
     contacto_label: "Contact · wholesale and orders",
     contacto_title: "Ready to work <em>together</em>? Message us on WhatsApp.",
     wa_label: "WhatsApp — reply within 24h",
     contact_email: "Email — ventas@tejidoslorena.com",
-    footer_right: "Fine knitwear · Since 1975"
+    footer_right: "Fine knitwear · Since 1978"
   }
 };
 
 const copyTones = {
   warm: {
-    hero_meta: "Una familia tejiendo · Atuntaqui · desde 1975",
+    hero_meta: "Una familia tejiendo · Atuntaqui · desde 1978",
     hero_h1_1: "Hecho", hero_h1_2: "con cariño", hero_h1_3: "para ti.",
     hero_lede: "Somos una familia tejiendo desde hace 50 años. Cada poncho, cada chal lleva el mismo cuidado que le pondríamos a una prenda para un ser querido.",
     historia_title: "Un negocio familiar <em>con alma andina</em>, hace más de 50 años.",

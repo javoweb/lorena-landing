@@ -1,48 +1,27 @@
 :root {
-  --cream: #f1e9d6;
-  --cream-deep: #e8dcc0;
-  --tan: #c9a876;
-  --tan-dark: #a8895c;
-  --ink: #1f1c17;
-  --ink-soft: #2e2a22;
-  --charcoal: #3d382e;
-  --bone: #faf6ec;
-  --stone: #8a8375;
-  --teal: #6b8b8b;
-  --teal-deep: #4f6e6e;
-  --line: rgba(31, 28, 23, 0.14);
-  --mute: rgba(31, 28, 23, 0.55);
+  /* Andean Earth — sampled from the actual product/color catalog */
+  --stone: #ece1cf;
+  --stone-deep: #ddcfb5;
+  --stone-alt: #e4d7bf;
+  --ink: #1f1b16;
+  --ink-soft: #332c22;
+  --bone: #f7f1e4;
+  --mute: rgba(31, 27, 22, 0.55);
+  --line: rgba(31, 27, 22, 0.14);
 
-  --bg: var(--bone);
-  --bg-alt: var(--cream);
-  --bg-deep: var(--cream-deep);
+  --accent-mustard: #bc8532;
+  --accent-teal: #125054;
+  --accent-maroon: #751e20;
+  --accent-olive: #3d382c;
+
+  --bg: var(--stone);
+  --bg-alt: var(--stone-alt);
+  --bg-deep: var(--stone-deep);
   --fg: var(--ink);
   --fg-soft: var(--ink-soft);
   --fg-mute: var(--mute);
-  --accent: var(--teal-deep);
+  --accent: var(--accent-mustard);
   --rule: var(--line);
-}
-
-[data-theme="dark"] {
-  --bg: #17150f;
-  --bg-alt: #1f1c15;
-  --bg-deep: #26221a;
-  --fg: #f1e9d6;
-  --fg-soft: #e8dcc0;
-  --fg-mute: rgba(241, 233, 214, 0.55);
-  --accent: #c9a876;
-  --rule: rgba(241, 233, 214, 0.14);
-}
-
-[data-theme="teal"] {
-  --bg: #dce5e3;
-  --bg-alt: #c8d5d3;
-  --bg-deep: #b3c3c0;
-  --fg: #1f2a2a;
-  --fg-soft: #2e3a3a;
-  --fg-mute: rgba(31, 42, 42, 0.55);
-  --accent: #8b4513;
-  --rule: rgba(31, 42, 42, 0.14);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -67,9 +46,6 @@ body {
   background-repeat: repeat-x;
   opacity: 0.5;
 }
-[data-theme="dark"] .andean-band {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 32' preserveAspectRatio='xMinYMid repeat'><g fill='none' stroke='%23e8dcc0' stroke-width='1.2'><path d='M0 16 L8 8 L16 16 L24 8 L32 16 L40 8 L48 16 L56 8 L64 16 L72 8 L80 16 L88 8 L96 16 L104 8 L112 16 L120 8'/><path d='M0 24 L8 16 L16 24 L24 16 L32 24 L40 16 L48 24 L56 16 L64 24 L72 16 L80 24 L88 16 L96 24 L104 16 L112 24 L120 16'/></g></svg>");
-}
 
 nav {
   position: fixed;
@@ -87,15 +63,12 @@ nav {
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: 'Caveat', cursive;
-  font-size: 28px;
-  font-weight: 700;
+  gap: 8px;
   color: var(--fg);
-  letter-spacing: 0.5px;
   text-decoration: none;
 }
-.nav-logo svg { width: 28px; height: 28px; }
+.nav-logo-icon { width: 32px; height: auto; }
+.nav-logo-word { width: 72px; height: auto; }
 .nav-logo .sub {
   font-family: 'Inter', sans-serif;
   font-size: 9px;
@@ -137,6 +110,7 @@ nav {
 .lang-switch button.active { color: var(--fg); font-weight: 500; }
 
 .hero {
+  --accent: var(--accent-mustard);
   min-height: 100vh;
   padding: 120px 40px 80px;
   display: grid;
@@ -262,6 +236,7 @@ section { padding: 120px 40px; position: relative; }
 .section-title em { font-style: italic; color: var(--accent); }
 
 .historia {
+  --accent: var(--accent-teal);
   background: var(--bg-alt);
   display: grid; grid-template-columns: 5fr 7fr;
   gap: 80px; align-items: start;
@@ -306,7 +281,7 @@ section { padding: 120px 40px; position: relative; }
   color: var(--fg-mute);
 }
 
-.proceso { background: var(--bg); }
+.proceso { --accent: var(--accent-maroon); background: var(--bg); }
 .proceso-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 40px; margin-top: 60px;
@@ -319,20 +294,11 @@ section { padding: 120px 40px; position: relative; }
 .proceso-img {
   aspect-ratio: 3/4; background: var(--bg-deep);
   position: relative; overflow: hidden; margin-bottom: 24px;
-  display: flex; align-items: center; justify-content: center;
 }
-.proceso-img::before {
-  content: ""; position: absolute; inset: 0;
-  background-image: repeating-linear-gradient(45deg, transparent, transparent 8px,
-    color-mix(in oklab, var(--fg) 8%, transparent) 8px,
-    color-mix(in oklab, var(--fg) 8%, transparent) 9px);
-}
-.proceso-img-inner {
-  position: relative; z-index: 1;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--fg-mute); text-align: center;
-  padding: 12px; background: var(--bg); border: 1px solid var(--rule);
+.proceso-img img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(0.95) contrast(1.02);
 }
 .proceso-step h3 {
   font-family: 'Cormorant Garamond', serif;
@@ -344,7 +310,7 @@ section { padding: 120px 40px; position: relative; }
   color: var(--fg-mute); font-weight: 300;
 }
 
-.galeria { background: var(--bg-alt); padding-bottom: 140px; }
+.galeria { --accent: var(--accent-olive); background: var(--bg-alt); padding-bottom: 140px; }
 .galeria-header {
   display: flex; justify-content: space-between; align-items: end;
   margin-bottom: 60px; flex-wrap: wrap; gap: 30px;
@@ -373,28 +339,28 @@ section { padding: 120px 40px; position: relative; }
   aspect-ratio: 3/4; background: var(--bg-deep);
   position: relative; overflow: hidden; cursor: pointer;
 }
-.gal-item::before {
-  content: ""; position: absolute; inset: 0;
-  background: repeating-linear-gradient(135deg, transparent, transparent 10px,
-    color-mix(in oklab, var(--fg) 6%, transparent) 10px,
-    color-mix(in oklab, var(--fg) 6%, transparent) 11px);
-}
-.gal-item[data-featured]::before {
-  background: repeating-linear-gradient(135deg, transparent, transparent 10px,
-    color-mix(in oklab, var(--accent) 18%, transparent) 10px,
-    color-mix(in oklab, var(--accent) 18%, transparent) 11px);
-}
-.gal-label {
-  position: absolute; bottom: 12px; left: 12px; right: 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--fg); background: var(--bg);
-  padding: 6px 8px; border: 1px solid var(--rule);
-  display: flex; justify-content: space-between; align-items: center;
-}
-.gal-item .poncho-real {
+.gal-item img {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(0.95) contrast(1.02);
+  transition: transform 0.5s ease;
+}
+.gal-item:hover img { transform: scale(1.04); }
+.gal-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 28px 14px 12px;
+  background: linear-gradient(to top, rgba(15, 12, 8, 0.72), transparent);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.gal-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 19px; font-weight: 500;
+  color: var(--bone);
+}
+.gal-swatches { display: flex; gap: 5px; }
+.gal-swatches i {
+  width: 12px; height: 12px; border-radius: 50%;
+  display: block; border: 1px solid rgba(255,255,255,0.4);
 }
 
 .instagram { background: var(--bg); }
@@ -431,6 +397,7 @@ section { padding: 120px 40px; position: relative; }
 }
 
 .contacto {
+  --accent: var(--accent-mustard);
   background: var(--fg); color: var(--bg);
   padding: 140px 40px 100px; position: relative;
 }
@@ -519,15 +486,15 @@ footer {
   font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
   color: var(--fg-mute); margin-bottom: 10px;
 }
-.theme-swatches { display: flex; gap: 8px; }
-.theme-swatch {
+.lang-swatches { display: flex; gap: 8px; }
+.lang-swatch {
   flex: 1; padding: 10px; border: 1px solid var(--rule);
   cursor: pointer;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
   text-align: center; color: var(--fg); background: none; transition: all 0.2s;
 }
-.theme-swatch.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.lang-swatch.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 .tweak-group .density-toggle button { flex: 1; text-align: center; }
 .copy-radios { display: flex; flex-direction: column; gap: 6px; }
 .copy-radios label {
@@ -611,6 +578,6 @@ footer {
 
   .tweaks { right: 16px; bottom: 16px; padding: 16px; }
   .tweaks h4 { font-size: 18px; margin-bottom: 14px; }
-  .theme-swatches { flex-wrap: wrap; }
-  .theme-swatch { flex: 1 1 calc(50% - 4px); }
+  .lang-swatches { flex-wrap: wrap; }
+  .lang-swatch { flex: 1 1 calc(50% - 4px); }
 }
