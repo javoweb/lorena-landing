@@ -1,3 +1,7 @@
 # Source template for og-image.jpg — not served in production.
 # Regenerate with the one-liner in CLAUDE.md.
 og-card.html
+
+# Local scratch dir (source catalog/logo files, gitignored) — the Vercel
+# CLI doesn't respect .gitignore, so it must be excluded here explicitly.
+tmp
