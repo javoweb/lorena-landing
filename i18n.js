@@ -44,7 +44,7 @@ const i18n = {
     footer_right: "Tejido de punto · Desde 1978"
   },
   en: {
-    nav_historia: "Story", nav_proceso: "Process", nav_galeria: "Gallery",
+    nav_historia: "About", nav_proceso: "Process", nav_galeria: "Gallery",
     nav_instagram: "Instagram", nav_contacto: "Contact",
     nav_tagline: "Since 1978",
     hero_meta: "Original design · Ecuador · since 1978",

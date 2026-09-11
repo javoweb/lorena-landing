@@ -1,4 +1,9 @@
-let state = { density: 'dense-low', language: 'es' };
+function detectLanguage() {
+  const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'es'];
+  return langs.some(l => l.toLowerCase().startsWith('en')) ? 'en' : 'es';
+}
+
+let state = { density: 'dense-low', language: detectLanguage() };
 
 function applyContent() {
   const lang = state.language;
